@@ -1,71 +1,48 @@
-import requests
-from datetime import datetime, timedelta
-import time
-import pytz
-# from os import environ
+from telegram import *
+from telegram.ext import *
 
-# Define all the constants
-time_interval = 10 # (in seconds) Specify the frequency of code execution
-PINCODE = "110028"
+bot = Bot("5177532718:AAGNPPGUfspoeBGZeNzPQXusu-14qMB-mlU")
 
-tele_auth_token = "5177532718:AAGNPPGUfspoeBGZeNzPQXusu-14qMB-mlU" # Authentication token provided by Telegram bot
-tel_group_id = "helpca"          # Telegram group name
-IST = pytz.timezone('Asia/Kolkata')        # Indian Standard Time - Timezone
-header = {'User-Agent': 'Chrome/84.0.4147.105 Safari/537.36'} # Header for using cowin api
+bot_token = bot
+bot_user_name = "Sidsanalysisbot"
+URL = "the heroku app link that we will create later"
 
-def update_timestamp_send_Request(PINCODE):
-    raw_TS = datetime.now(IST) + timedelta(days=1)      # Tomorrows date
-    tomorrow_date = raw_TS.strftime("%d-%m-%Y")         # Formatted Tomorrow's date
-    today_date = datetime.now(IST).strftime("%d-%m-%Y") #Current Date
-    curr_time = (datetime.now().strftime("%H:%M:%S"))   #Current time
-    request_link = f"https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode={PINCODE}&date={tomorrow_date}"
-    response = requests.get(request_link, headers = header)
-    raw_JSON = response.json()
-    return raw_JSON, today_date, curr_time
+updater = Updater("5177532718:AAGNPPGUfspoeBGZeNzPQXusu-14qMB-mlU",use_context=True)
+
+dispatcher = updater.dispatcher
+dp = dispatcher 
+
+def function(update:Update,context:CallbackContext):
+    bot.send_message(
+    chat_id = update.effective_chat.id,
+    text = "hi hello"
+);
+start_value = CommandHandler('start',  function)
+dispatcher.add_handler(start_value)
 
 
-def get_availability_data():
-    slot_found_45 = False
-    slot_found_18 = False
+def function1(update:Update,context:CallbackContext):
+    bot.send_message(
+    chat_id = update.effective_chat.id,
+    text = "Bots 2nd Command"
+);
+start_value1 = CommandHandler('hi',  function1)
+dispatcher.add_handler(start_value1)
+
+updater.start_polling()
+
+def welcome(update,context):
+    name = from_user.username
+    update.message.reply_text("hi welcome")
+    dp = updater.dispatcher
+dp.add_handler(ChatMemberHandler(welcome, ChatMemberHandler.CHAT_MEMBER))
+updater.start_polling(allowed_updates=Update.ALL_TYPES)
+
+def mimic(update, context):
+    context.bot.send_message(update.message.chat.id, update.message.text)
     
-    raw_JSON, today_date, curr_time = update_timestamp_send_Request(PINCODE)
-    print ("raw_JSON :" , raw_JSON)
-    
-    for cent in raw_JSON['centers']:
-        for sess in cent['sessions']:
-            sess_date = sess['date']
-            if sess['min_age_limit'] == 45 and sess['available_capacity'] > 0:
-                slot_found_45 =  True
-                msg = f"For age 45+ [Vaccine Available] at {PINCODE} on {sess_date}\n\tCenter : {cent['name']}\n\tVaccine: {sess['vaccine']}\n\tDose_1: {sess['available_capacity_dose1']}\n\tDose_2: {sess['available_capacity_dose2']}"
-                send_msg_on_telegram(msg)
-                print (f"INFO:[{curr_time}] Vaccine Found for 45+ at {PINCODE} >> Details sent on Telegram")
-                
-            elif sess['min_age_limit'] == 18 and sess['available_capacity'] > 0:
-                slot_found_18 =  True
-                msg = f"For age 18+ [Vaccine Available] at {PINCODE} on {sess_date}\n\tCenter : {cent['name']}\n\tVaccine: {sess['vaccine']}\n\tDose_1: {sess['available_capacity_dose1']}\n\tDose_2: {sess['available_capacity_dose2']}"
-                send_msg_on_telegram(msg)
-                print (f"INFO: [{curr_time}] Vaccine Found for 18+ at {PINCODE} >> Details sent on Telegram")
-    
-    if slot_found_45 == False and slot_found_18 == False:
-        print (f"INFO: [{today_date}-{curr_time}] Vaccine NOT-available for 45+ at {PINCODE}")
-        print (f"INFO: [{today_date}-{curr_time}] Vaccine NOT-available for 18+ at {PINCODE}")
-    elif slot_found_45 == False:
-        print (f"INFO: [{today_date}-{curr_time}] Vaccine NOT-available for 45+ at {PINCODE}")
-    else:
-        print (f"INFO: [{today_date}-{curr_time}] Vaccine NOT-available for 18+ at {PINCODE}")
-    
+dp.add_handler(MessageHandler(Filters.text, mimic)) 
 
-def send_msg_on_telegram(msg):
-    telegram_api_url = f"https://api.telegram.org/bot{tele_auth_token}/sendMessage?chat_id=@{tel_group_id}&text={msg}"
-    tel_resp = requests.get(telegram_api_url)
+dp.add_handler(MessageHandler(Filters.sticker, mimic)) 
 
-    if tel_resp.status_code == 200:
-        print ("Notification has been sent on Telegram")
-    else:
-        print ("Could not send Message")
-
-
-if __name__ == "__main__":    
-    while True:
-        get_availability_data()
-        time.sleep(time_interval)
+updater.idle()

@@ -8,8 +8,8 @@ import pytz
 time_interval = 10 # (in seconds) Specify the frequency of code execution
 PINCODE = "110028"
 
-tele_auth_token = "1901486933:AAHed-MGB8hVwrmK4E-gvKTVd63XNkoxvPE" # Authentication token provided by Telegram bot
-tel_group_id = "test_Aug_vaccine"          # Telegram group name
+tele_auth_token = "5177532718:AAGNPPGUfspoeBGZeNzPQXusu-14qMB-mlU" # Authentication token provided by Telegram bot
+tel_group_id = "helpca"          # Telegram group name
 IST = pytz.timezone('Asia/Kolkata')        # Indian Standard Time - Timezone
 header = {'User-Agent': 'Chrome/84.0.4147.105 Safari/537.36'} # Header for using cowin api
 

@@ -1,6 +1,7 @@
 from telegram import *
 from telegram.ext import *
 
+TELEGRAM_TOKEN = "Your Token here"
 bot = Bot(TELEGRAM_TOKEN)
 
 bot_token = TELEGRAM_TOKEN

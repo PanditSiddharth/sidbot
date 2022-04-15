@@ -9,7 +9,7 @@ bot = Bot(TELEGRAM_TOKEN)
 
 bot_token = TELEGRAM_TOKEN
 bot_user_name = "Sidsanalysisbot"
-URL = "https://sidsapp.herokuapp.com/"
+URL = ""
 
 updater = Updater(TELEGRAM_TOKEN,use_context=True)
 

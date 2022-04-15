@@ -1,13 +1,13 @@
 from telegram import *
 from telegram.ext import *
 
-bot = Bot("5177532718:AAGNPPGUfspoeBGZeNzPQXusu-14qMB-mlU")
+bot = Bot("TELEGRAM_TOKEN")
 
 bot_token = bot
 bot_user_name = "Sidsanalysisbot"
 URL = "the heroku app link that we will create later"
 
-updater = Updater("5177532718:AAGNPPGUfspoeBGZeNzPQXusu-14qMB-mlU",use_context=True)
+updater = Updater("TELEGRAM_TOKEN",use_context=True)
 
 dispatcher = updater.dispatcher
 dp = dispatcher 

@@ -1,17 +1,16 @@
 from telegram import *
 from telegram.ext import *
 import os
-from flask import *
 
-TELEGRAM_TOKEN = os.environ['TELEGRAM_TOKEN']
+TELEGRAM_TOKN = os.environ['TELEGRAM_TOKEN']
 
-bot = Bot(TELEGRAM_TOKEN)
+bot = Bot(TELEGRAM_TOKN)
 
-bot_token = TELEGRAM_TOKEN
+bot_token = TELEGRAM_TOKN
 bot_user_name = "Sidsanalysisbot"
 URL = ""
 
-updater = Updater(TELEGRAM_TOKEN,use_context=True)
+updater = Updater(TELEGRAM_TOKN,use_context=True)
 
 dispatcher = updater.dispatcher
 dp = dispatcher 

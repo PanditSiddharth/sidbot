@@ -1,7 +1,10 @@
 from telegram import *
 from telegram.ext import *
+import os
+from flask import *
 
-TELEGRAM_TOKEN = "Your Token here"
+TELEGRAM_TOKEN = os.environ['TELEGRAM_TOKEN']
+
 bot = Bot(TELEGRAM_TOKEN)
 
 bot_token = TELEGRAM_TOKEN
